@@ -1,0 +1,108 @@
+2025-11-13 18:18:17,311 | INFO | Logging to logs\run_20251113_181817.log
+2025-11-13 18:18:17,311 | INFO | Loaded config from C:/Users/seera/AWS/src/catalog_sync/config/config_dev.yaml
+2025-11-13 18:18:17,514 | INFO | Found credentials in shared credentials file: ~/.aws/credentials
+2025-11-13 18:18:17,791 | INFO | Using role from config: arn:aws:iam::980805786648:role/GlueFullAccessRole
+2025-11-13 18:18:17,791 | INFO | Listing files under s3://catalog-learning-project/source_zone/ with extensions: ['.csv', '.tsv', '.json', '.txt', '.xml']
+2025-11-13 18:18:19,019 | INFO | ==== Processing file: s3://catalog-learning-project/source_zone/sample_data.csv → table 'sample_data' ====
+2025-11-13 18:18:19,026 | INFO | Streaming head from s3://catalog-learning-project/source_zone/sample_data.csv (~256KB)
+2025-11-13 18:18:19,355 | INFO | Inferred CSV columns: [{'Name': 'customer_id', 'Type': 'string'}, {'Name': 'name', 'Type': 'string'}, {'Name': 'email', 'Type': 'string'}, {'Name': 'age', 'Type': 'string'}, {'Name': 'salary', 'Type': 'string'}, {'Name': 'department', 'Type': 'string'}, {'Name': 'is_active', 'Type': 'string'}, {'Name': 'joining_date', 'Type': 'string'}]
+2025-11-13 18:18:20,886 | INFO | ✅ Created landing table: landing_db.sample_data → s3://catalog-learning-project/source_zone/
+2025-11-13 18:18:21,186 | INFO | Table fdp_db.sample_data does not exist, creating new table.
+2025-11-13 18:18:21,530 | INFO | ✅ Created new FDP table: fdp_db.sample_data → s3://catalog-learning-project/fdp_zone/sample_data/
+2025-11-13 18:18:21,530 | INFO | FDP table to be used: fdp_db.sample_data
+2025-11-13 18:18:22,115 | INFO | Uploaded Glue job script to s3://catalog-learning-project/scripts/sample_data_fdp_writer.py
+2025-11-13 18:18:22,710 | INFO | ✅ Created Glue job: fdp_writer_sample_data
+2025-11-13 18:18:23,132 | INFO | 🚀 Started Glue job: fdp_writer_sample_data | RunId: jr_f55894043197aa077b23bdcf3f131e124f4feb5f296f8972495d823a4581e193
+2025-11-13 18:18:23,444 | INFO | [fdp_writer_sample_data] Status: RUNNING
+2025-11-13 18:18:33,724 | INFO | [fdp_writer_sample_data] Status: RUNNING
+2025-11-13 18:18:44,077 | INFO | [fdp_writer_sample_data] Status: RUNNING
+2025-11-13 18:18:54,373 | INFO | [fdp_writer_sample_data] Status: RUNNING
+2025-11-13 18:19:04,663 | INFO | [fdp_writer_sample_data] Status: RUNNING
+2025-11-13 18:19:14,977 | INFO | [fdp_writer_sample_data] Status: RUNNING
+2025-11-13 18:19:25,304 | INFO | [fdp_writer_sample_data] Status: RUNNING
+2025-11-13 18:19:35,607 | INFO | [fdp_writer_sample_data] Status: RUNNING
+2025-11-13 18:19:45,885 | INFO | [fdp_writer_sample_data] Status: SUCCEEDED
+2025-11-13 18:19:45,889 | INFO | ==== Processing file: s3://catalog-learning-project/source_zone/sample_data.json → table 'sample_data' ====
+2025-11-13 18:19:45,889 | INFO | Streaming head from s3://catalog-learning-project/source_zone/sample_data.json (~256KB)
+2025-11-13 18:19:47,636 | INFO | Inferred JSON columns: [{'Name': 'customer_id', 'Type': 'string'}, {'Name': 'name', 'Type': 'string'}, {'Name': 'email', 'Type': 'string'}, {'Name': 'age', 'Type': 'int'}, {'Name': 'salary', 'Type': 'double'}, {'Name': 'department', 'Type': 'string'}, {'Name': 'is_active', 'Type': 'string'}, {'Name': 'joining_date', 'Type': 'string'}]
+2025-11-13 18:19:47,928 | INFO | Landing table exists: landing_db.sample_data (skipping create)
+2025-11-13 18:19:48,222 | INFO | ✅ Schemas match (tolerant comparison)
+2025-11-13 18:19:48,893 | INFO | ✅ Updated table location: fdp_db.sample_data → s3://catalog-learning-project/fdp_zone/sample_data/
+2025-11-13 18:19:48,893 | INFO | FDP table to be used: fdp_db.sample_data
+2025-11-13 18:19:49,336 | INFO | Uploaded Glue job script to s3://catalog-learning-project/scripts/sample_data_fdp_writer.py
+2025-11-13 18:19:49,568 | INFO | Glue job 'fdp_writer_sample_data' exists; skipping creation.
+2025-11-13 18:19:49,855 | ERROR | ❌ Failed processing source_zone/sample_data.json: An error occurred (ConcurrentRunsExceededException) when calling the StartJobRun operation: Concurrent runs exceeded.
+Traceback (most recent call last):
+  File "c:\Users\seera\AWS\src\catalog_sync\scripts\enhanced_schema_to_glue_dynamic_copy.py", line 535, in process_all_files
+    state = run_and_wait(glue, job_name, temp_dir)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\seera\AWS\src\catalog_sync\scripts\enhanced_schema_to_glue_dynamic_copy.py", line 388, in run_and_wait
+    run = glue.start_job_run(JobName=job_name, Arguments={"--JOB_NAME": job_name, "--TempDir": temp_dir})
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\seera\AppData\Local\Programs\Python\Python312\Lib\site-packages\botocore\client.py", line 602, in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\seera\AppData\Local\Programs\Python\Python312\Lib\site-packages\botocore\context.py", line 123, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\seera\AppData\Local\Programs\Python\Python312\Lib\site-packages\botocore\client.py", line 1078, in _make_api_call
+    raise error_class(parsed_response, operation_name)
+botocore.errorfactory.ConcurrentRunsExceededException: An error occurred (ConcurrentRunsExceededException) when calling the StartJobRun operation: Concurrent runs exceeded.
+2025-11-13 18:19:49,867 | INFO | ==== Processing file: s3://catalog-learning-project/source_zone/sample_data.tsv → table 'sample_data' ====
+2025-11-13 18:19:49,867 | INFO | Streaming head from s3://catalog-learning-project/source_zone/sample_data.tsv (~256KB)
+2025-11-13 18:19:50,179 | INFO | Inferred TSV columns: [{'Name': 'customer_id', 'Type': 'string'}, {'Name': 'name', 'Type': 'string'}, {'Name': 'email', 'Type': 'string'}, {'Name': 'age', 'Type': 'string'}, {'Name': 'salary', 'Type': 'string'}, {'Name': 'department', 'Type': 'string'}, {'Name': 'is_active', 'Type': 'string'}, {'Name': 'joining_date', 'Type': 'string'}]
+2025-11-13 18:19:50,505 | INFO | Landing table exists: landing_db.sample_data (skipping create)
+2025-11-13 18:19:50,928 | INFO | ✅ Schemas match (tolerant comparison)
+2025-11-13 18:19:51,619 | INFO | ✅ Updated table location: fdp_db.sample_data → s3://catalog-learning-project/fdp_zone/sample_data/
+2025-11-13 18:19:51,619 | INFO | FDP table to be used: fdp_db.sample_data
+2025-11-13 18:19:52,058 | INFO | Uploaded Glue job script to s3://catalog-learning-project/scripts/sample_data_fdp_writer.py
+2025-11-13 18:19:52,320 | INFO | Glue job 'fdp_writer_sample_data' exists; skipping creation.
+2025-11-13 18:19:52,666 | ERROR | ❌ Failed processing source_zone/sample_data.tsv: An error occurred (ConcurrentRunsExceededException) when calling the StartJobRun operation: Concurrent runs exceeded.
+Traceback (most recent call last):
+  File "c:\Users\seera\AWS\src\catalog_sync\scripts\enhanced_schema_to_glue_dynamic_copy.py", line 535, in process_all_files
+    state = run_and_wait(glue, job_name, temp_dir)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\seera\AWS\src\catalog_sync\scripts\enhanced_schema_to_glue_dynamic_copy.py", line 388, in run_and_wait
+    run = glue.start_job_run(JobName=job_name, Arguments={"--JOB_NAME": job_name, "--TempDir": temp_dir})
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\seera\AppData\Local\Programs\Python\Python312\Lib\site-packages\botocore\client.py", line 602, in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\seera\AppData\Local\Programs\Python\Python312\Lib\site-packages\botocore\context.py", line 123, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\seera\AppData\Local\Programs\Python\Python312\Lib\site-packages\botocore\client.py", line 1078, in _make_api_call
+    raise error_class(parsed_response, operation_name)
+botocore.errorfactory.ConcurrentRunsExceededException: An error occurred (ConcurrentRunsExceededException) when calling the StartJobRun operation: Concurrent runs exceeded.
+2025-11-13 18:19:52,670 | INFO | ==== Processing file: s3://catalog-learning-project/source_zone/sample_data.txt → table 'sample_data' ====
+2025-11-13 18:19:52,671 | INFO | Streaming head from s3://catalog-learning-project/source_zone/sample_data.txt (~256KB)
+2025-11-13 18:19:52,956 | INFO | Treating file as plain text with single 'line' column.
+2025-11-13 18:19:53,302 | INFO | Landing table exists: landing_db.sample_data (skipping create)
+2025-11-13 18:19:53,636 | WARNING | Schema mismatch: column 'line' missing from existing table
+2025-11-13 18:19:53,636 | INFO | Schema mismatch detected for fdp_db.sample_data, creating versioned table.
+2025-11-13 18:19:53,966 | INFO | ✅ Created versioned table: fdp_db.sample_data__v20251113_181953 → s3://catalog-learning-project/fdp_zone/sample_data/
+2025-11-13 18:19:53,966 | INFO | FDP table to be used: fdp_db.sample_data__v20251113_181953
+2025-11-13 18:19:54,585 | INFO | Uploaded Glue job script to s3://catalog-learning-project/scripts/sample_data_fdp_writer.py
+2025-11-13 18:19:55,065 | INFO | Glue job 'fdp_writer_sample_data' exists; skipping creation.
+2025-11-13 18:19:55,371 | ERROR | ❌ Failed processing source_zone/sample_data.txt: An error occurred (ConcurrentRunsExceededException) when calling the StartJobRun operation: Concurrent runs exceeded.
+Traceback (most recent call last):
+  File "c:\Users\seera\AWS\src\catalog_sync\scripts\enhanced_schema_to_glue_dynamic_copy.py", line 535, in process_all_files
+    state = run_and_wait(glue, job_name, temp_dir)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\seera\AWS\src\catalog_sync\scripts\enhanced_schema_to_glue_dynamic_copy.py", line 388, in run_and_wait
+    run = glue.start_job_run(JobName=job_name, Arguments={"--JOB_NAME": job_name, "--TempDir": temp_dir})
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\seera\AppData\Local\Programs\Python\Python312\Lib\site-packages\botocore\client.py", line 602, in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\seera\AppData\Local\Programs\Python\Python312\Lib\site-packages\botocore\context.py", line 123, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\seera\AppData\Local\Programs\Python\Python312\Lib\site-packages\botocore\client.py", line 1078, in _make_api_call
+    raise error_class(parsed_response, operation_name)
+botocore.errorfactory.ConcurrentRunsExceededException: An error occurred (ConcurrentRunsExceededException) when calling the StartJobRun operation: Concurrent runs exceeded.
+2025-11-13 18:19:55,377 | INFO | ======== SUMMARY ========
+2025-11-13 18:19:55,404 | INFO | sample_data: SUCCEEDED
+2025-11-13 18:19:55,404 | INFO | sample_data.json: FAILED: An error occurred (ConcurrentRunsExceededException) when calling the StartJobRun operation: Concurrent runs exceeded.
+2025-11-13 18:19:55,410 | INFO | sample_data.tsv: FAILED: An error occurred (ConcurrentRunsExceededException) when calling the StartJobRun operation: Concurrent runs exceeded.
+2025-11-13 18:19:55,411 | INFO | sample_data.txt: FAILED: An error occurred (ConcurrentRunsExceededException) when calling the StartJobRun operation: Concurrent runs exceeded.

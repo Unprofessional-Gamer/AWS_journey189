@@ -1,0 +1,25 @@
+2025-11-13 18:12:41,312 | INFO | Logging to logs\run_20251113_181241.log
+2025-11-13 18:12:41,332 | INFO | Loaded config from C:/Users/seera/AWS/src/catalog_sync/config/config_dev.yaml
+2025-11-13 18:12:41,436 | INFO | Found credentials in shared credentials file: ~/.aws/credentials
+2025-11-13 18:12:41,696 | INFO | Using role from config: arn:aws:iam::980805786648:role/GlueFullAccessRole
+2025-11-13 18:12:41,712 | INFO | Listing files under s3://catalog-learning-project/source_zone/ with extensions: ['.csv', '.tsv', '.json', '.txt', '.xml']
+2025-11-13 18:12:54,601 | INFO | ==== Processing file: s3://catalog-learning-project/source_zone/sample_data.tsv → table 'sample_data' ====
+2025-11-13 18:12:54,608 | INFO | Streaming head from s3://catalog-learning-project/source_zone/sample_data.tsv (~256KB)
+2025-11-13 18:12:54,952 | INFO | Inferred TSV columns: [{'Name': 'customer_id', 'Type': 'string'}, {'Name': 'name', 'Type': 'string'}, {'Name': 'email', 'Type': 'string'}, {'Name': 'age', 'Type': 'string'}, {'Name': 'salary', 'Type': 'string'}, {'Name': 'department', 'Type': 'string'}, {'Name': 'is_active', 'Type': 'string'}, {'Name': 'joining_date', 'Type': 'string'}]
+2025-11-13 18:12:56,852 | INFO | Landing table exists: landing_db.sample_data (skipping create)
+2025-11-13 18:12:57,176 | INFO | ✅ Schemas match (tolerant comparison)
+2025-11-13 18:12:57,912 | INFO | ✅ Updated table location: fdp_db.sample_data → s3://catalog-learning-project/fdp_zone/sample_data/
+2025-11-13 18:12:57,912 | INFO | FDP table to be used: fdp_db.sample_data
+2025-11-13 18:12:58,543 | INFO | Uploaded Glue job script to s3://catalog-learning-project/scripts/sample_data_fdp_writer.py
+2025-11-13 18:12:59,553 | INFO | ✅ Created Glue job: fdp_writer_sample_data
+2025-11-13 18:12:59,965 | INFO | 🚀 Started Glue job: fdp_writer_sample_data | RunId: jr_467ba4d322c8d8ce26d6a38501274277cf92613eceaf38103e3932fca17805c3
+2025-11-13 18:13:00,544 | INFO | [fdp_writer_sample_data] Status: RUNNING
+2025-11-13 18:13:10,821 | INFO | [fdp_writer_sample_data] Status: RUNNING
+2025-11-13 18:13:21,125 | INFO | [fdp_writer_sample_data] Status: RUNNING
+2025-11-13 18:13:31,426 | INFO | [fdp_writer_sample_data] Status: RUNNING
+2025-11-13 18:13:41,749 | INFO | [fdp_writer_sample_data] Status: RUNNING
+2025-11-13 18:13:52,056 | INFO | [fdp_writer_sample_data] Status: RUNNING
+2025-11-13 18:14:02,362 | INFO | [fdp_writer_sample_data] Status: RUNNING
+2025-11-13 18:14:12,790 | INFO | [fdp_writer_sample_data] Status: SUCCEEDED
+2025-11-13 18:14:12,790 | INFO | ======== SUMMARY ========
+2025-11-13 18:14:12,790 | INFO | sample_data: SUCCEEDED

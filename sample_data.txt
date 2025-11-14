@@ -1,0 +1,5 @@
+C001,Alice Johnson,alice@example.com,32,75000.50,Engineering,true,2020-01-15
+C002,Bob Smith,bob@example.com,28,65000.00,Sales,true,2021-03-22
+C003,Carol White,carol@example.com,45,95000.75,Management,false,2018-06-10
+C004,David Brown,david@example.com,35,80000.25,Engineering,true,2019-11-05
+C005,Eva Martinez,eva@example.com,29,70000.00,Marketing,true,2022-02-14

@@ -1,0 +1,18 @@
+2025-11-13 17:42:30,621 | INFO | Logging to logs\run_20251113_174230.log
+2025-11-13 17:42:30,651 | INFO | Loaded config from C:/Users/seera/AWS/src/catalog_sync/config/config_dev.yaml
+2025-11-13 17:42:30,725 | INFO | Found credentials in shared credentials file: ~/.aws/credentials
+2025-11-13 17:42:32,465 | INFO | Auto-detected role ARN: arn:aws:iam::980805786648:role/AWSGlueServiceRole-DataEngineering
+2025-11-13 17:42:32,465 | INFO | Listing files under s3://catalog-learning-project/source_zone/ with extensions: ['.csv', '.tsv', '.json', '.txt', '.xml']
+2025-11-13 17:42:33,693 | INFO | ==== Processing file: s3://catalog-learning-project/source_zone/sample_data.tsv → table 'sample_data' ====
+2025-11-13 17:42:33,708 | INFO | Streaming head from s3://catalog-learning-project/source_zone/sample_data.tsv (~256KB)
+2025-11-13 17:42:33,997 | INFO | Inferred TSV columns: [{'Name': 'customer_id', 'Type': 'string'}, {'Name': 'name', 'Type': 'string'}, {'Name': 'email', 'Type': 'string'}, {'Name': 'age', 'Type': 'string'}, {'Name': 'salary', 'Type': 'string'}, {'Name': 'department', 'Type': 'string'}, {'Name': 'is_active', 'Type': 'string'}, {'Name': 'joining_date', 'Type': 'string'}]
+2025-11-13 17:42:35,553 | INFO | ✅ Created landing table: landing_db.sample_data → s3://catalog-learning-project/source_zone/
+2025-11-13 17:42:36,149 | INFO | Uploaded Glue job script to s3://catalog-learning-project/scripts/sample_data_fdp_writer.py
+2025-11-13 17:42:36,761 | INFO | ✅ Created Glue job: fdp_writer_sample_data
+2025-11-13 17:42:37,173 | INFO | 🚀 Started Glue job: fdp_writer_sample_data | RunId: jr_515e7a670be8fe200228e8be801b8473ab0555a5656add2b7030a795f9a11dda
+2025-11-13 17:42:37,483 | INFO | [fdp_writer_sample_data] Status: RUNNING
+2025-11-13 17:42:47,722 | INFO | [fdp_writer_sample_data] Status: FAILED
+2025-11-13 17:42:47,722 | ERROR | [fdp_writer_sample_data] Error: AccountId:980805786648 and JobName:fdp_writer_sample_data and JobRunId:jr_515e7a670be8fe200228e8be801b8473ab0555a5656add2b7030a795f9a11dda failed to execute with exception Role arn:aws:iam::980805786648:role/AWSGlueServiceRole-DataEngineering should be given assume role permissions for Glue Service.
+ (Service: AWSGlueJobExecutor; Status Code: 400; Error Code: InvalidInputException; Request ID: 5348804f-b2a2-4aab-9b83-72f4e4c83fca; Proxy: null)
+2025-11-13 17:42:47,722 | INFO | ======== SUMMARY ========
+2025-11-13 17:42:47,736 | INFO | sample_data: FAILED

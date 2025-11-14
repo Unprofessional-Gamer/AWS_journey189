@@ -1,0 +1,26 @@
+
+aws:
+  region: eu-north-1
+  bucket_name: catalog-learning-project
+  role_arn: arn:aws:iam::980805786648:role/GlueFullAccessRole  # used by schema_to_glue_dynamic.py
+
+glue:
+  landing_db: landing_db
+  fdp_db: fdp_db
+  glue_version: 3.0
+  temp_dir: s3://catalog-learning-project/temp/
+
+s3_paths:
+  source_prefix: source_zone/
+  target_prefix: fdp_zone/
+  script_prefix: scripts/   # ✅ add this line
+
+glue:
+  landing_db: "landing_db"
+  fdp_db: "fdp_db"
+  glue_version: "3.0"
+  temp_dir: "s3://catalog-learning-project/temp/"
+
+logging:
+  level: "INFO"
+  retention_days: 7
