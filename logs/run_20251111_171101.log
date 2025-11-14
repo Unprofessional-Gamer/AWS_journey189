@@ -1,0 +1,22 @@
+2025-11-11 17:11:01,696 | INFO | Logging to logs\run_20251111_171101.log
+2025-11-11 17:11:01,730 | INFO | Loaded config from C:/Users/seera/AWS/src/catalog_sync/config/config_dev.yaml
+2025-11-11 17:11:01,946 | INFO | Found credentials in shared credentials file: ~/.aws/credentials
+2025-11-11 17:11:02,207 | INFO | Listing CSV files under s3://catalog-learning-project/source_zone/
+2025-11-11 17:11:03,217 | INFO | ==== Processing file: s3://catalog-learning-project/source_zone/customers.csv → table 'customers' ====
+2025-11-11 17:11:03,217 | INFO | Streaming head from s3://catalog-learning-project/source_zone/customers.csv (~256KB)
+2025-11-11 17:11:03,437 | INFO | Inferred columns: [{'Name': 'customer_id', 'Type': 'string'}, {'Name': 'first_name', 'Type': 'string'}, {'Name': 'last_name', 'Type': 'string'}, {'Name': 'email', 'Type': 'string'}]
+2025-11-11 17:11:04,513 | INFO | Landing table exists: landing_db.customers (skipping create)
+2025-11-11 17:11:04,718 | INFO | Ensured prefix: s3://catalog-learning-project/fdp_zone/customers/
+2025-11-11 17:11:05,129 | INFO | Uploaded Glue job script to s3://catalog-learning-project/scripts/customers_fdp_writer.py
+2025-11-11 17:11:05,625 | INFO | Created Glue job: fdp_writer_customers
+2025-11-11 17:11:05,946 | INFO | Started Glue job: fdp_writer_customers | RunId: jr_375188ded4f41c9e404d50f6a1238a0b4d579208ceb8ae2cffae8debcad2c8fb
+2025-11-11 17:11:06,165 | INFO | [fdp_writer_customers] Status: RUNNING
+2025-11-11 17:11:16,440 | INFO | [fdp_writer_customers] Status: RUNNING
+2025-11-11 17:11:26,731 | INFO | [fdp_writer_customers] Status: RUNNING
+2025-11-11 17:11:37,072 | INFO | [fdp_writer_customers] Status: RUNNING
+2025-11-11 17:11:47,373 | INFO | [fdp_writer_customers] Status: RUNNING
+2025-11-11 17:11:57,633 | INFO | [fdp_writer_customers] Status: RUNNING
+2025-11-11 17:12:07,909 | INFO | [fdp_writer_customers] Status: RUNNING
+2025-11-11 17:12:18,149 | INFO | [fdp_writer_customers] Status: SUCCEEDED
+2025-11-11 17:12:18,154 | INFO | ======== SUMMARY ========
+2025-11-11 17:12:18,154 | INFO | customers: SUCCEEDED

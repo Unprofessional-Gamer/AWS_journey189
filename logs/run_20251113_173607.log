@@ -1,0 +1,6 @@
+2025-11-13 17:36:07,008 | INFO | Logging to logs\run_20251113_173607.log
+2025-11-13 17:36:07,031 | INFO | Loaded config from C:/Users/seera/AWS/src/catalog_sync/config/config_dev.yaml
+2025-11-13 17:36:07,229 | INFO | Found credentials in shared credentials file: ~/.aws/credentials
+2025-11-13 17:36:07,569 | INFO | Using role from config: arn:aws:iam::980805786648:role/GlueFullAccessRole
+2025-11-13 17:36:07,569 | INFO | Listing files under s3://catalog-learning-project/source_zone/ with extensions: ['.csv', '.tsv', '.json', '.txt', '.xml']
+2025-11-13 17:36:08,983 | WARNING | ⚠️ No supported files found in source path.

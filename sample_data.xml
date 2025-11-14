@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<customers>
+  <customer>
+    <customer_id>C001</customer_id>
+    <name>Alice Johnson</name>
+    <email>alice@example.com</email>
+    <age>32</age>
+    <salary>75000.50</salary>
+    <department>Engineering</department>
+    <is_active>true</is_active>
+    <joining_date>2020-01-15</joining_date>
+  </customer>
+  <customer>
+    <customer_id>C002</customer_id>
+    <name>Bob Smith</name>
+    <email>bob@example.com</email>
+    <age>28</age>
+    <salary>65000.00</salary>
+    <department>Sales</department>
+    <is_active>true</is_active>
+    <joining_date>2021-03-22</joining_date>
+  </customer>
+  <customer>
+    <customer_id>C003</customer_id>
+    <name>Carol White</name>
+    <email>carol@example.com</email>
+    <age>45</age>
+    <salary>95000.75</salary>
+    <department>Management</department>
+    <is_active>false</is_active>
+    <joining_date>2018-06-10</joining_date>
+  </customer>
+</customers>

@@ -1,0 +1,22 @@
+2025-11-11 17:21:47,441 | INFO | Logging to logs\run_20251111_172147.log
+2025-11-11 17:21:47,441 | INFO | Loaded config from C:/Users/seera/AWS/src/catalog_sync/config/config_dev.yaml
+2025-11-11 17:21:47,689 | INFO | Found credentials in shared credentials file: ~/.aws/credentials
+2025-11-11 17:21:47,981 | INFO | Listing CSV files under s3://catalog-learning-project/source_zone/
+2025-11-11 17:21:49,076 | INFO | ==== Processing file: s3://catalog-learning-project/source_zone/customers.csv → table 'customers' ====
+2025-11-11 17:21:49,076 | INFO | Streaming head from s3://catalog-learning-project/source_zone/customers.csv (~256KB)
+2025-11-11 17:21:49,300 | INFO | Inferred columns: [{'Name': 'customer_id', 'Type': 'string'}, {'Name': 'first_name', 'Type': 'string'}, {'Name': 'last_name', 'Type': 'string'}, {'Name': 'email', 'Type': 'string'}]
+2025-11-11 17:21:50,377 | INFO | Landing table exists: landing_db.customers (skipping create)
+2025-11-11 17:21:50,642 | INFO | Ensured prefix: s3://catalog-learning-project/fdp_zone/customers/
+2025-11-11 17:21:51,255 | INFO | Uploaded Glue job script to s3://catalog-learning-project/scripts/customers_fdp_writer.py
+2025-11-11 17:21:51,461 | INFO | Glue job 'fdp_writer_customers' exists; skipping creation.
+2025-11-11 17:21:51,872 | INFO | Started Glue job: fdp_writer_customers | RunId: jr_08dbeb22afd6814da520dd12302b0e069524a5919931a51c3c79f09506eda9ca
+2025-11-11 17:21:52,114 | INFO | [fdp_writer_customers] Status: RUNNING
+2025-11-11 17:22:02,408 | INFO | [fdp_writer_customers] Status: RUNNING
+2025-11-11 17:22:12,713 | INFO | [fdp_writer_customers] Status: RUNNING
+2025-11-11 17:22:22,983 | INFO | [fdp_writer_customers] Status: RUNNING
+2025-11-11 17:22:33,232 | INFO | [fdp_writer_customers] Status: RUNNING
+2025-11-11 17:22:43,480 | INFO | [fdp_writer_customers] Status: RUNNING
+2025-11-11 17:22:53,723 | INFO | [fdp_writer_customers] Status: RUNNING
+2025-11-11 17:23:03,959 | INFO | [fdp_writer_customers] Status: SUCCEEDED
+2025-11-11 17:23:03,959 | INFO | ======== SUMMARY ========
+2025-11-11 17:23:03,959 | INFO | customers: SUCCEEDED

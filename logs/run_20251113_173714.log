@@ -1,0 +1,25 @@
+2025-11-13 17:37:14,651 | INFO | Logging to logs\run_20251113_173714.log
+2025-11-13 17:37:14,651 | INFO | Loaded config from C:/Users/seera/AWS/src/catalog_sync/config/config_dev.yaml
+2025-11-13 17:37:14,775 | INFO | Found credentials in shared credentials file: ~/.aws/credentials
+2025-11-13 17:37:15,034 | INFO | Using role from config: arn:aws:iam::980805786648:role/GlueFullAccessRole
+2025-11-13 17:37:15,034 | INFO | Listing files under s3://catalog-learning-project/source_zone/ with extensions: ['.csv', '.tsv', '.json', '.txt', '.xml']
+2025-11-13 17:37:16,476 | INFO | ==== Processing file: s3://catalog-learning-project/source_zone/sample_data.tsv → table 'sample_data' ====
+2025-11-13 17:37:16,476 | INFO | Streaming head from s3://catalog-learning-project/source_zone/sample_data.tsv (~256KB)
+2025-11-13 17:37:16,769 | INFO | Inferred TSV columns: [{'Name': 'customer_id', 'Type': 'string'}, {'Name': 'name', 'Type': 'string'}, {'Name': 'email', 'Type': 'string'}, {'Name': 'age', 'Type': 'string'}, {'Name': 'salary', 'Type': 'string'}, {'Name': 'department', 'Type': 'string'}, {'Name': 'is_active', 'Type': 'string'}, {'Name': 'joining_date', 'Type': 'string'}]
+2025-11-13 17:37:18,257 | ERROR | ❌ Failed processing source_zone/sample_data.tsv: An error occurred (EntityNotFoundException) when calling the CreateTable operation: Database landing_db not found.
+Traceback (most recent call last):
+  File "c:\Users\seera\AWS\src\catalog_sync\scripts\enhanced_schema_to_glue_dynamic_copy.py", line 305, in process_all_files
+    ensure_landing_table(glue, landing_db, table_name, landing_location, columns)
+  File "c:\Users\seera\AWS\src\catalog_sync\scripts\enhanced_schema_to_glue_dynamic_copy.py", line 210, in ensure_landing_table
+    glue.create_table(
+  File "C:\Users\seera\AppData\Local\Programs\Python\Python312\Lib\site-packages\botocore\client.py", line 602, in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\seera\AppData\Local\Programs\Python\Python312\Lib\site-packages\botocore\context.py", line 123, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\seera\AppData\Local\Programs\Python\Python312\Lib\site-packages\botocore\client.py", line 1078, in _make_api_call
+    raise error_class(parsed_response, operation_name)
+botocore.errorfactory.EntityNotFoundException: An error occurred (EntityNotFoundException) when calling the CreateTable operation: Database landing_db not found.
+2025-11-13 17:37:18,263 | INFO | ======== SUMMARY ========
+2025-11-13 17:37:18,263 | INFO | sample_data.tsv: FAILED: An error occurred (EntityNotFoundException) when calling the CreateTable operation: Database landing_db not found.

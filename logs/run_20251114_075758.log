@@ -1,0 +1,67 @@
+2025-11-14 07:57:58,667 | INFO | Logging to logs\run_20251114_075758.log
+2025-11-14 07:57:58,684 | INFO | Loaded config from C:/Users/seera/AWS/src/catalog_sync/config/config_dev.yaml
+2025-11-14 07:57:58,816 | INFO | Found credentials in shared credentials file: ~/.aws/credentials
+2025-11-14 07:57:59,187 | INFO | Using role from config: arn:aws:iam::980805786648:role/GlueFullAccessRole
+2025-11-14 07:57:59,187 | INFO | Listing files under s3://catalog-learning-project/source_zone/ with extensions: ['.csv', '.tsv', '.json', '.txt', '.xml']
+2025-11-14 07:58:00,168 | INFO | ==== Processing file: s3://catalog-learning-project/source_zone/csv_sample_data.csv → table 'csv_sample_data' ====
+2025-11-14 07:58:00,168 | INFO | Streaming head from s3://catalog-learning-project/source_zone/csv_sample_data.csv (~256KB)
+2025-11-14 07:58:00,471 | INFO | Inferred CSV columns: [{'Name': 'customer_id', 'Type': 'string'}, {'Name': 'name', 'Type': 'string'}, {'Name': 'email', 'Type': 'string'}, {'Name': 'age', 'Type': 'string'}, {'Name': 'salary', 'Type': 'string'}, {'Name': 'department', 'Type': 'string'}, {'Name': 'is_active', 'Type': 'string'}, {'Name': 'joining_date', 'Type': 'string'}]
+2025-11-14 07:58:02,006 | INFO | ✅ Created landing table: landing_db.csv_sample_data → s3://catalog-learning-project/source_zone/
+2025-11-14 07:58:02,618 | INFO | Uploaded Glue job script to s3://catalog-learning-project/scripts/csv_sample_data_fdp_writer.py
+2025-11-14 07:58:03,231 | INFO | ✅ Created Glue job: fdp_writer_csv_sample_data
+2025-11-14 07:58:03,602 | INFO | 🚀 Started Glue job: fdp_writer_csv_sample_data | RunId: jr_5c0ff061b95d2e27ca024414e5237744dc3def674ea45fce656153ae95acdbdc
+2025-11-14 07:58:03,951 | INFO | [fdp_writer_csv_sample_data] Status: RUNNING
+2025-11-14 07:58:14,291 | INFO | [fdp_writer_csv_sample_data] Status: RUNNING
+2025-11-14 07:58:24,634 | INFO | [fdp_writer_csv_sample_data] Status: RUNNING
+2025-11-14 07:58:34,974 | INFO | [fdp_writer_csv_sample_data] Status: RUNNING
+2025-11-14 07:58:45,317 | INFO | [fdp_writer_csv_sample_data] Status: RUNNING
+2025-11-14 07:58:55,657 | INFO | [fdp_writer_csv_sample_data] Status: RUNNING
+2025-11-14 07:59:05,997 | INFO | [fdp_writer_csv_sample_data] Status: RUNNING
+2025-11-14 07:59:16,315 | INFO | [fdp_writer_csv_sample_data] Status: RUNNING
+2025-11-14 07:59:26,576 | INFO | [fdp_writer_csv_sample_data] Status: SUCCEEDED
+2025-11-14 07:59:26,576 | INFO | ==== Processing file: s3://catalog-learning-project/source_zone/json_sample_data.json → table 'json_sample_data' ====
+2025-11-14 07:59:26,576 | INFO | Streaming head from s3://catalog-learning-project/source_zone/json_sample_data.json (~256KB)
+2025-11-14 07:59:27,642 | INFO | Inferred JSON columns: [{'Name': 'customer_id', 'Type': 'string'}, {'Name': 'name', 'Type': 'string'}, {'Name': 'email', 'Type': 'string'}, {'Name': 'age', 'Type': 'int'}, {'Name': 'salary', 'Type': 'double'}, {'Name': 'department', 'Type': 'string'}, {'Name': 'is_active', 'Type': 'string'}, {'Name': 'joining_date', 'Type': 'string'}]
+2025-11-14 07:59:28,309 | INFO | ✅ Created landing table: landing_db.json_sample_data → s3://catalog-learning-project/source_zone/
+2025-11-14 07:59:28,820 | INFO | Uploaded Glue job script to s3://catalog-learning-project/scripts/json_sample_data_fdp_writer.py
+2025-11-14 07:59:29,432 | INFO | ✅ Created Glue job: fdp_writer_json_sample_data
+2025-11-14 07:59:29,860 | INFO | 🚀 Started Glue job: fdp_writer_json_sample_data | RunId: jr_126c88731efac670faf5e9795aca56aadd42b929cb8c74aa9dc314a064d1ad7f
+2025-11-14 07:59:30,157 | INFO | [fdp_writer_json_sample_data] Status: RUNNING
+2025-11-14 07:59:40,507 | INFO | [fdp_writer_json_sample_data] Status: RUNNING
+2025-11-14 07:59:50,827 | INFO | [fdp_writer_json_sample_data] Status: RUNNING
+2025-11-14 08:00:01,193 | INFO | [fdp_writer_json_sample_data] Status: RUNNING
+2025-11-14 08:00:11,537 | INFO | [fdp_writer_json_sample_data] Status: RUNNING
+2025-11-14 08:00:21,828 | INFO | [fdp_writer_json_sample_data] Status: RUNNING
+2025-11-14 08:00:32,118 | INFO | [fdp_writer_json_sample_data] Status: FAILED
+2025-11-14 08:00:32,118 | ERROR | [fdp_writer_json_sample_data] Error: An error occurred while calling o86.csv. Since Spark 2.3, the queries from raw JSON/CSV files are disallowed when the
+2025-11-14 08:00:32,118 | INFO | ==== Processing file: s3://catalog-learning-project/source_zone/tsv_sample_data.tsv → table 'tsv_sample_data' ====
+2025-11-14 08:00:32,118 | INFO | Streaming head from s3://catalog-learning-project/source_zone/tsv_sample_data.tsv (~256KB)
+2025-11-14 08:00:33,377 | INFO | Inferred TSV columns: [{'Name': 'customer_id', 'Type': 'string'}, {'Name': 'name', 'Type': 'string'}, {'Name': 'email', 'Type': 'string'}, {'Name': 'age', 'Type': 'string'}, {'Name': 'salary', 'Type': 'string'}, {'Name': 'department', 'Type': 'string'}, {'Name': 'is_active', 'Type': 'string'}, {'Name': 'joining_date', 'Type': 'string'}]
+2025-11-14 08:00:34,060 | INFO | ✅ Created landing table: landing_db.tsv_sample_data → s3://catalog-learning-project/source_zone/
+2025-11-14 08:00:34,679 | INFO | Uploaded Glue job script to s3://catalog-learning-project/scripts/tsv_sample_data_fdp_writer.py
+2025-11-14 08:00:35,293 | INFO | ✅ Created Glue job: fdp_writer_tsv_sample_data
+2025-11-14 08:00:35,648 | INFO | 🚀 Started Glue job: fdp_writer_tsv_sample_data | RunId: jr_260bacff4496d490ab3080b4f5b17941e0a86c9e31715b98f42c29c602308602
+2025-11-14 08:00:35,917 | INFO | [fdp_writer_tsv_sample_data] Status: RUNNING
+2025-11-14 08:00:46,242 | INFO | [fdp_writer_tsv_sample_data] Status: RUNNING
+2025-11-14 08:00:56,601 | INFO | [fdp_writer_tsv_sample_data] Status: RUNNING
+2025-11-14 08:01:06,936 | INFO | [fdp_writer_tsv_sample_data] Status: RUNNING
+2025-11-14 08:01:17,248 | INFO | [fdp_writer_tsv_sample_data] Status: RUNNING
+2025-11-14 08:01:27,503 | INFO | [fdp_writer_tsv_sample_data] Status: SUCCEEDED
+2025-11-14 08:01:27,504 | INFO | ==== Processing file: s3://catalog-learning-project/source_zone/txt_sample_data.txt → table 'txt_sample_data' ====
+2025-11-14 08:01:27,505 | INFO | Streaming head from s3://catalog-learning-project/source_zone/txt_sample_data.txt (~256KB)
+2025-11-14 08:01:28,701 | INFO | Treating file as plain text with single 'line' column.
+2025-11-14 08:01:29,368 | INFO | ✅ Created landing table: landing_db.txt_sample_data → s3://catalog-learning-project/source_zone/
+2025-11-14 08:01:29,843 | INFO | Uploaded Glue job script to s3://catalog-learning-project/scripts/txt_sample_data_fdp_writer.py
+2025-11-14 08:01:30,412 | INFO | ✅ Created Glue job: fdp_writer_txt_sample_data
+2025-11-14 08:01:30,745 | INFO | 🚀 Started Glue job: fdp_writer_txt_sample_data | RunId: jr_089747e956e35d30143fc55faab4c272e91dc4e44a578e3bedc3337243222cc1
+2025-11-14 08:01:31,012 | INFO | [fdp_writer_txt_sample_data] Status: RUNNING
+2025-11-14 08:01:41,341 | INFO | [fdp_writer_txt_sample_data] Status: RUNNING
+2025-11-14 08:01:51,618 | INFO | [fdp_writer_txt_sample_data] Status: RUNNING
+2025-11-14 08:02:02,020 | INFO | [fdp_writer_txt_sample_data] Status: RUNNING
+2025-11-14 08:02:12,369 | INFO | [fdp_writer_txt_sample_data] Status: RUNNING
+2025-11-14 08:02:22,608 | INFO | [fdp_writer_txt_sample_data] Status: SUCCEEDED
+2025-11-14 08:02:22,608 | INFO | ======== SUMMARY ========
+2025-11-14 08:02:22,608 | INFO | csv_sample_data: SUCCEEDED
+2025-11-14 08:02:22,608 | INFO | json_sample_data: FAILED
+2025-11-14 08:02:22,608 | INFO | tsv_sample_data: SUCCEEDED
+2025-11-14 08:02:22,608 | INFO | txt_sample_data: SUCCEEDED

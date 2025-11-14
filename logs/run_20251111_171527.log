@@ -1,0 +1,23 @@
+2025-11-11 17:15:27,414 | INFO | Logging to logs\run_20251111_171527.log
+2025-11-11 17:15:27,415 | INFO | Loaded config from C:/Users/seera/AWS/src/catalog_sync/config/config_dev.yaml
+2025-11-11 17:15:27,652 | INFO | Found credentials in shared credentials file: ~/.aws/credentials
+2025-11-11 17:15:27,896 | INFO | Listing CSV files under s3://catalog-learning-project/source_zone/
+2025-11-11 17:15:28,949 | INFO | ==== Processing file: s3://catalog-learning-project/source_zone/customers.csv → table 'customers' ====
+2025-11-11 17:15:28,949 | INFO | Streaming head from s3://catalog-learning-project/source_zone/customers.csv (~256KB)
+2025-11-11 17:15:29,256 | INFO | Inferred columns: [{'Name': 'customer_id', 'Type': 'string'}, {'Name': 'first_name', 'Type': 'string'}, {'Name': 'last_name', 'Type': 'string'}, {'Name': 'email', 'Type': 'string'}]
+2025-11-11 17:15:30,365 | INFO | Landing table exists: landing_db.customers (skipping create)
+2025-11-11 17:15:30,583 | INFO | Ensured prefix: s3://catalog-learning-project/fdp_zone/customers/
+2025-11-11 17:15:30,980 | INFO | Uploaded Glue job script to s3://catalog-learning-project/scripts/customers_fdp_writer.py
+2025-11-11 17:15:31,221 | INFO | Glue job 'fdp_writer_customers' exists; skipping creation.
+2025-11-11 17:15:31,529 | INFO | Started Glue job: fdp_writer_customers | RunId: jr_eeb33b35d6575e55ebe8ad6fe205c2a891aaf434c5888e2f41959f1604dd3691
+2025-11-11 17:15:31,765 | INFO | [fdp_writer_customers] Status: RUNNING
+2025-11-11 17:15:42,240 | INFO | [fdp_writer_customers] Status: RUNNING
+2025-11-11 17:15:52,551 | INFO | [fdp_writer_customers] Status: RUNNING
+2025-11-11 17:16:02,821 | INFO | [fdp_writer_customers] Status: RUNNING
+2025-11-11 17:16:13,083 | INFO | [fdp_writer_customers] Status: RUNNING
+2025-11-11 17:16:23,318 | INFO | [fdp_writer_customers] Status: RUNNING
+2025-11-11 17:16:33,666 | INFO | [fdp_writer_customers] Status: RUNNING
+2025-11-11 17:16:43,909 | INFO | [fdp_writer_customers] Status: RUNNING
+2025-11-11 17:16:54,153 | INFO | [fdp_writer_customers] Status: SUCCEEDED
+2025-11-11 17:16:54,153 | INFO | ======== SUMMARY ========
+2025-11-11 17:16:54,155 | INFO | customers: SUCCEEDED

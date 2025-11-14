@@ -1,0 +1,21 @@
+2025-11-13 17:54:50,781 | INFO | Logging to logs\run_20251113_175450.log
+2025-11-13 17:54:50,814 | INFO | Loaded config from C:/Users/seera/AWS/src/catalog_sync/config/config_dev.yaml
+2025-11-13 17:54:51,015 | INFO | Found credentials in shared credentials file: ~/.aws/credentials
+2025-11-13 17:54:51,265 | INFO | Using role from config: arn:aws:iam::980805786648:role/GlueFullAccessRole
+2025-11-13 17:54:51,265 | INFO | Listing files under s3://catalog-learning-project/source_zone/ with extensions: ['.csv', '.tsv', '.json', '.txt', '.xml']
+2025-11-13 17:54:52,516 | INFO | ==== Processing file: s3://catalog-learning-project/source_zone/sample_data.tsv → table 'sample_data' ====
+2025-11-13 17:54:52,524 | INFO | Streaming head from s3://catalog-learning-project/source_zone/sample_data.tsv (~256KB)
+2025-11-13 17:54:52,805 | INFO | Inferred TSV columns: [{'Name': 'customer_id', 'Type': 'string'}, {'Name': 'name', 'Type': 'string'}, {'Name': 'email', 'Type': 'string'}, {'Name': 'age', 'Type': 'string'}, {'Name': 'salary', 'Type': 'string'}, {'Name': 'department', 'Type': 'string'}, {'Name': 'is_active', 'Type': 'string'}, {'Name': 'joining_date', 'Type': 'string'}]
+2025-11-13 17:54:53,931 | INFO | Landing table exists: landing_db.sample_data (skipping create)
+2025-11-13 17:54:54,220 | INFO | ✅ Schemas match (tolerant comparison)
+2025-11-13 17:54:55,159 | INFO | ✅ Updated table location: fdp_db.sample_data → s3://catalog-learning-project/fdp_zone/sample_data/
+2025-11-13 17:54:55,159 | INFO | FDP table to be used: fdp_db.sample_data
+2025-11-13 17:54:55,769 | INFO | Uploaded Glue job script to s3://catalog-learning-project/scripts/sample_data_fdp_writer.py
+2025-11-13 17:54:56,095 | INFO | Glue job 'fdp_writer_sample_data' exists; skipping creation.
+2025-11-13 17:54:56,593 | INFO | 🚀 Started Glue job: fdp_writer_sample_data | RunId: jr_005f3e657421aa4b1e5b5454bf08d03c60db79908b4d6acdff69f0d45655e572
+2025-11-13 17:54:56,899 | INFO | [fdp_writer_sample_data] Status: RUNNING
+2025-11-13 17:55:07,179 | INFO | [fdp_writer_sample_data] Status: FAILED
+2025-11-13 17:55:07,179 | ERROR | [fdp_writer_sample_data] Error: AccountId:980805786648 and JobName:fdp_writer_sample_data and JobRunId:jr_005f3e657421aa4b1e5b5454bf08d03c60db79908b4d6acdff69f0d45655e572 failed to execute with exception Role arn:aws:iam::980805786648:role/AWSGlueServiceRole-DataEngineering should be given assume role permissions for Glue Service.
+ (Service: AWSGlueJobExecutor; Status Code: 400; Error Code: InvalidInputException; Request ID: f4839d39-0e46-4780-802b-9837ced5a8cf; Proxy: null)
+2025-11-13 17:55:07,179 | INFO | ======== SUMMARY ========
+2025-11-13 17:55:07,179 | INFO | sample_data: FAILED

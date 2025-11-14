@@ -1,0 +1,20 @@
+{
+  "aws_region": "eu-north-1",
+  "s3_bucket": "catalog-sync-testing",
+  "prefixes": {
+    "source": "source_catalog_file/",
+    "target": "Target_catalog_file/",
+    "scripts": "scripts/",
+    "temp": "temp/"
+  },
+  "glue": {
+    "landing_db": "landing_db",
+    "fdp_db": "fdp_db",
+    "glue_role_name": "AWSGlueRole_AutoCatalog",
+    "glue_job_name": "sync_copy_job"
+  },
+  "lambda": {
+    "function_name": "catalog_metadata_lambda",
+    "role_name": "LambdaCatalogRole"
+  }
+}

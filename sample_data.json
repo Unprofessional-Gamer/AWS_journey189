@@ -1,0 +1,52 @@
+[
+  {
+    "customer_id": "C001",
+    "name": "Alice Johnson",
+    "email": "alice@example.com",
+    "age": 32,
+    "salary": 75000.50,
+    "department": "Engineering",
+    "is_active": true,
+    "joining_date": "2020-01-15"
+  },
+  {
+    "customer_id": "C002",
+    "name": "Bob Smith",
+    "email": "bob@example.com",
+    "age": 28,
+    "salary": 65000.00,
+    "department": "Sales",
+    "is_active": true,
+    "joining_date": "2021-03-22"
+  },
+  {
+    "customer_id": "C003",
+    "name": "Carol White",
+    "email": "carol@example.com",
+    "age": 45,
+    "salary": 95000.75,
+    "department": "Management",
+    "is_active": false,
+    "joining_date": "2018-06-10"
+  },
+  {
+    "customer_id": "C004",
+    "name": "David Brown",
+    "email": "david@example.com",
+    "age": 35,
+    "salary": 80000.25,
+    "department": "Engineering",
+    "is_active": true,
+    "joining_date": "2019-11-05"
+  },
+  {
+    "customer_id": "C005",
+    "name": "Eva Martinez",
+    "email": "eva@example.com",
+    "age": 29,
+    "salary": 70000.00,
+    "department": "Marketing",
+    "is_active": true,
+    "joining_date": "2022-02-14"
+  }
+]

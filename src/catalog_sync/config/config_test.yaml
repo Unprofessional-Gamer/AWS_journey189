@@ -1,0 +1,19 @@
+aws:
+  region: "eu-north-1"
+  role_arn: "arn:aws:iam::980805786648:role/GlueFullAccessRole"
+  bucket_name: "catalog-learning-project-test"
+
+s3_paths:
+  source_prefix: "source_zone/"
+  target_prefix: "fdp_zone/"
+  script_prefix: "scripts/"
+
+glue:
+  landing_db: "landing_db_test"
+  fdp_db: "fdp_db_test"
+  glue_version: "3.0"
+  temp_dir: "s3://catalog-learning-project-test/temp/"
+
+logging:
+  level: "INFO"
+  retention_days: 14
