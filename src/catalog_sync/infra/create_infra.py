@@ -133,7 +133,7 @@ def make_table_name(prefix: str, system_code: str, batch_id: str, filename: str)
 
 system_code = CONFIG.get("meta", {}).get("system_code", "SYS01")
 from datetime import datetime
-batch_id = datetime.now().strftime("%Y%m%d%H%M%S")
+batch_id = datetime.now().strftime("%Y%m%d%H%M%S_%f")[:-3]  # Include milliseconds
 
 # Define columns for each landing table based on sample data
 table_schemas = {
@@ -144,6 +144,9 @@ table_schemas = {
         {"Name": "age", "Type": "int"},
         {"Name": "salary", "Type": "double"},
         {"Name": "department", "Type": "string"},
+        {"Name": "ver_1", "Type": "string"},
+        {"Name": "check_1", "Type": "string"},
+        {"Name": "updated_by", "Type": "string"},
     ],
     "sample_data.json": [
         {"Name": "id", "Type": "string"},
@@ -152,6 +155,9 @@ table_schemas = {
         {"Name": "price", "Type": "double"},
         {"Name": "category", "Type": "string"},
         {"Name": "in_stock", "Type": "string"},
+        {"Name": "ver_1", "Type": "string"},
+        {"Name": "ver_2", "Type": "string"},
+        {"Name": "last_modified", "Type": "string"},
     ],
     "sample_data.xml": [
         {"Name": "order_id", "Type": "string"},
@@ -160,6 +166,9 @@ table_schemas = {
         {"Name": "status", "Type": "string"},
         {"Name": "order_date", "Type": "string"},
         {"Name": "region", "Type": "string"},
+        {"Name": "processing_status", "Type": "string"},
+        {"Name": "quality_check", "Type": "string"},
+        {"Name": "audit_timestamp", "Type": "string"},
     ],
 }
 
@@ -224,36 +233,7 @@ try:
 except glue.exceptions.AlreadyExistsException:
     print(f"ℹ️ Log table '{LOG_DB}.{log_table_name}' already exists.")
 
-# ---- Step 6: Create FDP DB tables (mirror of landing tables) ----
-print("\n📋 Creating FDP tables...")
-for fname in sample_files:
-    fdp_table_name = make_table_name("fdp", system_code, batch_id, fname)
-    fdp_location = f"s3://{BUCKET}/{CONFIG['s3_paths']['target_prefix']}{os.path.splitext(fname)[0]}/"
-    columns = table_schemas.get(fname, [{"Name": "raw", "Type": "string"}])
-    
-    try:
-        glue.create_table(
-            DatabaseName=FDP_DB,
-            TableInput={
-                "Name": fdp_table_name,
-                "StorageDescriptor": {
-                    "Columns": columns,
-                    "Location": fdp_location,
-                    "InputFormat": "org.apache.hadoop.mapred.TextInputFormat",
-                    "OutputFormat": "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat",
-                    "SerdeInfo": {
-                        "SerializationLibrary": "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe",
-                        "Parameters": {"field.delim": ","},
-                    },
-                },
-                "TableType": "EXTERNAL_TABLE",
-            },
-        )
-        print(f"✅ Created FDP table: {FDP_DB}.{fdp_table_name} with {len(columns)} columns")
-    except glue.exceptions.AlreadyExistsException:
-        print(f"ℹ️ FDP table '{FDP_DB}.{fdp_table_name}' already exists.")
-
-# ---- Step 7: Copy sample data from landing to FDP zone in S3 ----
+# ---- Step 6: Copy sample data from landing to FDP zone in S3 ----
 print("\n📦 Copying sample data from landing to FDP zone...")
 source_prefix = CONFIG["s3_paths"]["source_prefix"]
 target_prefix = CONFIG["s3_paths"]["target_prefix"]
@@ -272,8 +252,7 @@ for fname in sample_objects.keys():
         print(f"⚠️ Failed to copy {fname} to FDP zone: {e}")
 
 print("\n🎉 Infrastructure setup complete!")
-print(f"Landing DB: {LANDING_DB} (3 tables)")
-print(f"FDP DB: {FDP_DB} (3 tables)")
+print(f"Landing DB: {LANDING_DB} (3 tables with new batch_id)")
 print(f"Log DB: {LOG_DB} (1 table)")
-print(f"Sample data copied to FDP zone under s3://{BUCKET}/{target_prefix}")
+print(f"Sample data available at s3://{BUCKET}/{CONFIG['s3_paths']['source_prefix']}")
 
