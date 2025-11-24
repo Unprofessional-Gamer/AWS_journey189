@@ -2,9 +2,13 @@ import boto3
 import yaml
 import json
 import os
+from datetime import datetime
 
+# -------------------------
 # Load configuration
-with open("C:/Users/seera/AWS/src/catalog_sync/config/config.yaml", "r") as f:
+# -------------------------
+CONFIG_PATH = "C:/Users/seera/AWS/src/catalog_sync/config/config.yaml"
+with open(CONFIG_PATH, "r") as f:
     CONFIG = yaml.safe_load(f)
 
 REGION = CONFIG["aws"]["region"]
@@ -19,17 +23,25 @@ s3 = boto3.client("s3", region_name=REGION)
 glue = boto3.client("glue", region_name=REGION)
 iam = boto3.client("iam", region_name=REGION)
 
-# ---- Step 1: Create S3 bucket ----
+# -------------------------
+# Step 1: Create S3 bucket
+# -------------------------
 try:
-    s3.create_bucket(
-        Bucket=BUCKET,
-        CreateBucketConfiguration={"LocationConstraint": REGION}
-    )
+    # Note: For us-east-1, CreateBucketConfiguration must be omitted.
+    if REGION == "us-east-1":
+        s3.create_bucket(Bucket=BUCKET)
+    else:
+        s3.create_bucket(
+            Bucket=BUCKET,
+            CreateBucketConfiguration={"LocationConstraint": REGION}
+        )
     print(f"✅ Created bucket: {BUCKET}")
 except s3.exceptions.BucketAlreadyOwnedByYou:
     print(f"ℹ️ Bucket '{BUCKET}' already exists.")
+except Exception as e:
+    print(f"⚠️ Error creating bucket {BUCKET}: {e}")
 
-# Create S3 folders
+# Create S3 folders (prefixes)
 folders = [
     CONFIG["s3_paths"]["source_prefix"],
     CONFIG["s3_paths"]["target_prefix"],
@@ -37,10 +49,16 @@ folders = [
     "temp/"
 ]
 for folder in folders:
-    s3.put_object(Bucket=BUCKET, Key=(folder))
+    try:
+        # Put a zero-byte object to create a prefix "folder"
+        s3.put_object(Bucket=BUCKET, Key=(folder if folder.endswith("/") else folder))
+    except Exception as e:
+        print(f"⚠️ Failed to ensure folder {folder} in bucket {BUCKET}: {e}")
 print("✅ S3 structure prepared.")
 
-# ---- Upload sample data files into source prefix so landing tables have data ----
+# -------------------------
+# Upload sample data files into source prefix so landing tables have data
+# -------------------------
 sample_objects = {
     "sample_data.csv": (
         "customer_id,name,email,age,salary,department,is_active,joining_date\n"
@@ -72,15 +90,19 @@ sample_objects = {
     ),
 }
 
+source_prefix = CONFIG["s3_paths"]["source_prefix"]
+
 for fname, content in sample_objects.items():
-    key = CONFIG["s3_paths"]["source_prefix"] + fname
+    key = source_prefix + fname
     try:
         s3.put_object(Bucket=BUCKET, Key=key, Body=content.encode("utf-8"))
         print(f"✅ Uploaded sample file to s3://{BUCKET}/{key}")
     except Exception as e:
         print(f"⚠️ Failed to upload sample file {fname} to S3: {e}")
 
-# ---- Step 2: Create IAM Role for Glue ----
+# -------------------------
+# Step 2: Create IAM Role for Glue
+# -------------------------
 trust_policy = {
     "Version": "2012-10-17",
     "Statement": [
@@ -115,69 +137,58 @@ try:
     print(f"✅ Created IAM role: {ROLE_NAME}")
 except iam.exceptions.EntityAlreadyExistsException:
     print(f"ℹ️ IAM role '{ROLE_NAME}' already exists.")
+except Exception as e:
+    print(f"⚠️ Error creating IAM role {ROLE_NAME}: {e}")
 
-# ---- Step 3: Create Glue Databases ----
+# -------------------------
+# Step 3: Create Glue Databases
+# -------------------------
 for db_name in [LANDING_DB, FDP_DB, LOG_DB]:
     try:
         glue.create_database(DatabaseInput={"Name": db_name})
         print(f"✅ Created Glue database: {db_name}")
     except glue.exceptions.AlreadyExistsException:
         print(f"ℹ️ Glue database '{db_name}' already exists.")
+    except Exception as e:
+        print(f"⚠️ Error creating Glue database {db_name}: {e}")
 
+# -------------------------
+# Step 4: Create the TWO Landing Tables (clean environment first)
+# -------------------------
+print("\n🗑️ Cleaning up old landing tables...")
+try:
+    existing_tables = glue.get_tables(DatabaseName=LANDING_DB).get("TableList", [])
+    for existing_table in existing_tables:
+        try:
+            glue.delete_table(DatabaseName=LANDING_DB, Name=existing_table["Name"])
+            print(f"✅ Deleted old landing table: {LANDING_DB}.{existing_table['Name']}")
+        except Exception as e:
+            print(f"⚠️ Failed to delete landing table {existing_table['Name']}: {e}")
+except Exception as e:
+    print(f"ℹ️ No existing landing tables to delete or error accessing: {e}")
 
-# ---- Step 4: Create sample landing tables with naming convention ----
-def make_table_name(prefix: str, system_code: str, batch_id: str, filename: str) -> str:
-    # sanitize filename (remove extension)
-    base = os.path.splitext(os.path.basename(filename))[0]
-    return f"{prefix}_{system_code}_{batch_id}_{base}"
-
-system_code = CONFIG.get("meta", {}).get("system_code", "SYS01")
-from datetime import datetime
-batch_id = datetime.now().strftime("%Y%m%d%H%M%S_%f")[:-3]  # Include milliseconds
-
-# Define columns for each landing table based on sample data
-table_schemas = {
-    "sample_data.csv": [
-        {"Name": "customer_id", "Type": "string"},
-        {"Name": "name", "Type": "string"},
-        {"Name": "email", "Type": "string"},
-        {"Name": "age", "Type": "int"},
-        {"Name": "salary", "Type": "double"},
-        {"Name": "department", "Type": "string"},
-        {"Name": "ver_1", "Type": "string"},
-        {"Name": "check_1", "Type": "string"},
-        {"Name": "updated_by", "Type": "string"},
+# Define the two landing tables exactly as confirmed
+landing_tables = {
+    "landing_sys01_2025": [
+        {"Name": "col1", "Type": "string"},
+        {"Name": "col2", "Type": "int"},
+        {"Name": "col3", "Type": "string"},
+        {"Name": "col4", "Type": "double"},
+        {"Name": "col5", "Type": "string"},
     ],
-    "sample_data.json": [
-        {"Name": "id", "Type": "string"},
-        {"Name": "product", "Type": "string"},
-        {"Name": "qty", "Type": "int"},
-        {"Name": "price", "Type": "double"},
-        {"Name": "category", "Type": "string"},
-        {"Name": "in_stock", "Type": "string"},
-        {"Name": "ver_1", "Type": "string"},
-        {"Name": "ver_2", "Type": "string"},
-        {"Name": "last_modified", "Type": "string"},
-    ],
-    "sample_data.xml": [
-        {"Name": "order_id", "Type": "string"},
-        {"Name": "customer", "Type": "string"},
-        {"Name": "amount", "Type": "double"},
-        {"Name": "status", "Type": "string"},
-        {"Name": "order_date", "Type": "string"},
-        {"Name": "region", "Type": "string"},
-        {"Name": "processing_status", "Type": "string"},
-        {"Name": "quality_check", "Type": "string"},
-        {"Name": "audit_timestamp", "Type": "string"},
-    ],
+    "landing_sys01_2026": [
+        {"Name": "col1", "Type": "string"},
+        {"Name": "col2", "Type": "string"},
+        {"Name": "col3", "Type": "int"},
+        {"Name": "col4", "Type": "double"},
+        {"Name": "col5", "Type": "string"},
+        {"Name": "col6", "Type": "string"},
+        {"Name": "col7", "Type": "string"},
+    ]
 }
 
-# choose three sample files (if present) to create landing tables
-sample_files = ["sample_data.csv", "sample_data.json", "sample_data.xml"]
-created_tables = []
-for fname in sample_files:
-    table_name = make_table_name("landing", system_code, batch_id, fname)
-    columns = table_schemas.get(fname, [{"Name": "raw", "Type": "string"}])
+print("\n📌 Creating required landing tables...")
+for table_name, columns in landing_tables.items():
     try:
         glue.create_table(
             DatabaseName=LANDING_DB,
@@ -185,7 +196,7 @@ for fname in sample_files:
                 "Name": table_name,
                 "StorageDescriptor": {
                     "Columns": columns,
-                    "Location": f"s3://{BUCKET}/{CONFIG['s3_paths']['source_prefix']}",
+                    "Location": f"s3://{BUCKET}/{source_prefix}",
                     "InputFormat": "org.apache.hadoop.mapred.TextInputFormat",
                     "OutputFormat": "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat",
                     "SerdeInfo": {
@@ -196,12 +207,15 @@ for fname in sample_files:
                 "TableType": "EXTERNAL_TABLE",
             },
         )
-        print(f"✅ Created landing table: {LANDING_DB}.{table_name} with {len(columns)} columns")
-        created_tables.append(table_name)
+        print(f"✅ Created landing table: {LANDING_DB}.{table_name} ({len(columns)} columns)")
     except glue.exceptions.AlreadyExistsException:
         print(f"ℹ️ Landing table '{LANDING_DB}.{table_name}' already exists.")
+    except Exception as e:
+        print(f"⚠️ Failed to create landing table {LANDING_DB}.{table_name}: {e}")
 
-# ---- Step 5: Create Log DB batch log table ----
+# -------------------------
+# Step 5: Create Log DB batch log table
+# -------------------------
 try:
     log_table_name = CONFIG.get("glue", {}).get("log_table", "batch_log")
     glue.create_table(
@@ -232,19 +246,21 @@ try:
     print(f"✅ Created log table: {LOG_DB}.{log_table_name}")
 except glue.exceptions.AlreadyExistsException:
     print(f"ℹ️ Log table '{LOG_DB}.{log_table_name}' already exists.")
+except Exception as e:
+    print(f"⚠️ Failed to create log table {LOG_DB}.{log_table_name}: {e}")
 
-# ---- Step 6: Copy sample data from landing to FDP zone in S3 ----
+# -------------------------
+# Step 6: Copy sample data from landing to FDP zone in S3
+# -------------------------
 print("\n📦 Copying sample data from landing to FDP zone...")
-source_prefix = CONFIG["s3_paths"]["source_prefix"]
 target_prefix = CONFIG["s3_paths"]["target_prefix"]
 
 for fname in sample_objects.keys():
     source_key = source_prefix + fname
     base_name = os.path.splitext(fname)[0]
     target_key = target_prefix + base_name + "/" + fname
-    
+
     try:
-        # Copy object from landing to FDP zone
         copy_source = {"Bucket": BUCKET, "Key": source_key}
         s3.copy_object(CopySource=copy_source, Bucket=BUCKET, Key=target_key)
         print(f"✅ Copied s3://{BUCKET}/{source_key} → s3://{BUCKET}/{target_key}")
@@ -252,7 +268,8 @@ for fname in sample_objects.keys():
         print(f"⚠️ Failed to copy {fname} to FDP zone: {e}")
 
 print("\n🎉 Infrastructure setup complete!")
-print(f"Landing DB: {LANDING_DB} (3 tables with new batch_id)")
-print(f"Log DB: {LOG_DB} (1 table)")
-print(f"Sample data available at s3://{BUCKET}/{CONFIG['s3_paths']['source_prefix']}")
+print(f"Landing DB: {LANDING_DB} (created tables: {', '.join(landing_tables.keys())})")
+print(f"Log DB: {LOG_DB} (table: {log_table_name})")
+print(f"Sample data available at s3://{BUCKET}/{source_prefix}")
+
 
